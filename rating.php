@@ -1,3 +1,11 @@
+<?php
+include "lib/Session_Users.php";
+$seguridad=new Seguridad();
+if($seguridad->getUsuario()==null){
+  header('Location: index.php');
+  exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,13 +33,18 @@
 
 <body>
     <div class="sidebar">
-        <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
-        <a href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
-        <a href="create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-        <a href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
-        <a class="active" href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
-        <a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
-        <a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+    <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
+
+<a href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
+<a class="active" href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
+<a class="active" href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
+<a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
+<a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+<hr>
+<label class="admin">Administración</label>
+<a href="admin/create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+<a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+<a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
 
     </div>
 

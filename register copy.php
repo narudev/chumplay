@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+  <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/login.css">
@@ -24,42 +23,56 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" defer src="js/main.js"></script>
-    <title>ChumPlay - Acceder</title>
-</head>
+    <title>ChumPlay - Registro</title>
+  </head>
+  <body>
+	<div class="container">
+		
+		<div class="login-form">
+			
+			
+			<div class="form-header">
+				<i class="fa fa-user"></i>
+			</div>
+			<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-register" role="form" id="register-form">
+				<div>
+					<input name="name" id="name" type="text" class="form-control" placeholder="Nombre"> 
+					<span class="help-block"></span>
+				</div>
+				<div>
+					<input name="email" id="email" type="email" class="form-control" placeholder="Correo electrónico" > 
+					<span class="help-block"></span>
+				</div>
+				<div>
+					<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
+					<span class="help-block"></span>
+				</div>
+				<div>
+					<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
+					<span class="help-block"></span>
+				</div>
+				<button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
+			</form>
+			<div class="form-footer">
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<i class="fa fa-lock"></i>
+						<a href="forget_password.php"> Olvidó su contraseña? </a>
+					
+					</div>
+					
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<i class="fa fa-check"></i>
+						<a href="index.php">  Iniciar sesión  </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
 
-<body>
-
-    <div class="container">
-
-        <div class="login-form">
-
-            <div class="form-header">
-            <img class="login-logo" src="img/logo.png" alt="ChumPlay" title="ChumPlay">
-            <!--<i class="fa fa-user"></i>-->
-            </div>
-            <form id="login-form" method="post" class="form-signin" role="form" action="rating.php">
-                <input name="email" id="email" type="email" class="form-control" placeholder="Correo electrónico" autofocus>
-                <input name="password" id="password" type="password" class="form-control" placeholder="Contraseña">
-                <button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Iniciando....">Iniciar sesión</button>
-                <input type="hidden" name="accion" value="login">
-            </form>
-             <!--<div class="form-footer">
-                <div class="row">
-                   
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <i class="fa fa-lock"></i>
-                        <a href="forget_password.php"> Olvidó su contraseña? </a>
-
-                    </div>
-    
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <i class="fa fa-check"></i>
-                        <a href="register.php"> Registrarse </a>
-                    </div>-->
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
+	
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/register.js"></script>
+  </body>
 </html>

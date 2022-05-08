@@ -1,5 +1,9 @@
 body {
-    background: #eee !important;
+    background: #f1f1f1 !important;
+}
+
+.login-logo {
+    width: 250px;
 }
 
 .login-form {
@@ -55,11 +59,11 @@ body {
 }
 
 .bt-login {
-    background-color: #3498db;
+    background-color: #95a5a6;
     color: #ffffff;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding: 12px 12px !important;
     transition: background-color 300ms linear 0s;
+    font-size: 16px !important;
 }
 
 .form-signin .form-control,

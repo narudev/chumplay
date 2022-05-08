@@ -1,3 +1,8 @@
+<?php
+include "lib/Notices.php";
+$notices = new Notices();
+$resultado = $notices->listNotices();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,20 +35,41 @@
         <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
 
         <a class="active" href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
-        <a href="create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
         <a href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
         <a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+        <hr>
+        <label class="admin">Administración</label>
+        <a href="admin/create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        <a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+        <a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        
 
     </div>
 
     <div class="content">
         <h1>Noticias</h1>
         <section id="content">
-            <div id="posts">
-                <!-- Cargar posts desde json -->
-            </div>
+            <!--<div id="posts">
+                 Cargar posts desde json 
+            </div> -->
+        <?php
+
+            while ($row = $resultado->fetch_assoc()) { ?>
+            
+            <h2><?php echo $row['title']; ?></h2>
+            <p>
+                <?php echo $row['article']; ?>
+            </p>
+            <span class="date">Creado <?php
+                $date = date_create($row['created']); 
+                echo date_format($date, 'd/m/Y H:i:s' ); 
+            ?></span>
+            <!--<span class="date">Creado : <?php echo $row['created']; ?></span>-->
+            <hr>
+        <?php } ?>
+
         </section>
     </div>
     <div class="footer">

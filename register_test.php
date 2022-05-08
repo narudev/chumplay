@@ -58,7 +58,7 @@
 					<span class="help-block"></span>
 				</div>
 				<input type="hidden" name="accion" value="registro">
-				
+				<input type="submit" value="Registrar">
 				<button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
 			</form>
 			<div class="form-footer">
@@ -78,7 +78,29 @@
 		</div>
 	</div>
 	<!-- /container -->
-	
+	<div>
+		<h2>Formulario de registro</h2>
+		<form method="post" action="control_users.php">
+
+			<label for="fname">Nombre</label>
+			<input type="text" id="fname" name="nombre" placeholder="Tu nombre..">
+		 	<br>
+			<label for="lname">Apellidos</label>
+			<input type="text" id="lname" name="apellidos" placeholder="Tus apellidos..">
+			<br>
+			<label for="user">Email</label>
+			<input type="text" id="user" name="email" placeholder="Tu usuario..">
+			<br>
+			<label for="pass0">Contraseña</label>
+			<input type="password" id="pass0" name="pass0" placeholder="Contraseña..">
+			<br>
+			<label for="pass1">Repite Contraseña</label>
+			<input type="password" id="pass1" name="pass1" placeholder="Contraseña..">
+			<br>
+			<input type="hidden" name="accion" value="registro">
+			<input type="submit" value="Registrar">
+		</form>
+	</div>
 
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/register.js"></script>

@@ -27,16 +27,21 @@
     <div class="sidebar">
     <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
     <a href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
-        <a href="create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        
         <a href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
         <a class="active" href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+        <hr>
+        <label class="admin">Administración</label>
+        <a href="admin/create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        <a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+        <a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
 
     </div>
 
     <div class="content">
-        <h2>Perfil</h2>
+        <h1>Perfil</h1>
         <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
         <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
         <h3>Resize the browser window to see the effect.</h3>

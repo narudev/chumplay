@@ -9,7 +9,7 @@ class db
   private $host = "localhost";
   private $user = "root";
   private $pass = "";
-  private $db_name = "usuarios";
+  private $db_name = "chumplay";
 
   //Conector
   private $conexion;

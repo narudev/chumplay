@@ -27,16 +27,20 @@
     <div class="sidebar">
         <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
         <a href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
-        <a href="create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
         <a href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a class="active" href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
         <a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+        <hr>
+        <label class="admin">Administración</label>
+        <a href="admin/create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        <a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+        <a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
 
     </div>
 
     <div class="content">
-        <h2>Reglas</h2>
+        <h1>Reglas</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce magna lectus, tristique et diam id, porta porta lacus. Nullam non erat maximus, ullamcorper ligula et, luctus arcu. Cras aliquam nec est nec egestas. Nullam tristique placerat ipsum eget tincidunt. Praesent quis enim at lacus dictum mattis. Nunc dictum mauris non sem sodales tincidunt. Ut quis tellus ipsum. Aliquam ut ultricies leo. Fusce quis metus lobortis, sollicitudin orci a, bibendum tortor. Fusce scelerisque feugiat eros. Nullam maximus nunc id massa sollicitudin, a fermentum augue semper. Suspendisse ullamcorper semper elit ut fringilla. Donec non elit vitae neque congue dictum sed ut nisi. Nullam in turpis facilisis, fringilla lorem eget, varius ipsum. Praesent tincidunt commodo sollicitudin.
             </p>
