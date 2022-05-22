@@ -1,5 +1,5 @@
 <?php
-include "db.php";
+include_once "db.php";
 /**
  *
  */
@@ -24,6 +24,13 @@ class Users extends db
     //Consulta
     $sql = "SELECT * from tbl_users";
     //Realizamos consulta
+    return $this->realizarConsulta($sql);
+  }
+
+  function listUserRating(){
+    
+    $sql = "SELECT * FROM tbl_users ORDER BY POINTS DESC";
+
     return $this->realizarConsulta($sql);
   }
 
@@ -85,6 +92,23 @@ class Users extends db
     }
   }
 
+  function updatePassword($id, $pass)
+  {
+    if ($this->error == false) {
+      //Consulta
+      $sql = "UPDATE tbl_users SET pass = '" . sha1($pass) . "' WHERE ID = " . $id;
+      $resultado = $this->realizarConsulta($sql);
+      if (!$resultado) {
+        echo $sql;
+        echo "Falló la actualizacion de la tabla: (" . $this->errno . ") " . $this->error;
+        return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function deleteUsuario($id){
     if ($this->error == false) {
       //Consulta
@@ -131,4 +155,42 @@ class Users extends db
       return null;
     }
   }
+
+  function updatePointsUser($id)
+  {
+    if ($this->error == false) {
+      //Consulta
+      
+      $sql = "UPDATE tbl_users SET points = points + 3 WHERE ID = " . $id;
+      $resultado = $this->realizarConsulta($sql);
+      //echo var_dump($sql);
+      if (!$resultado) {
+        echo $sql;
+        echo "Falló la actualizacion de la tabla: (" . $this->errno . ") " . $this->error;
+        return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function updatePointControl($id,$roundmatch){
+    if ($this->error == false) {
+      //Consulta
+      
+      $sql = "UPDATE tbl_bet SET control_points = 1 WHERE roundmatch = '" . $roundmatch . "'AND id_users = " . $id ;
+      $resultado = $this->realizarConsulta($sql);
+      //echo var_dump($sql);
+      if (!$resultado) {
+        echo $sql;
+        echo "Falló la actualizacion de la tabla: (" . $this->errno . ") " . $this->error;
+        return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

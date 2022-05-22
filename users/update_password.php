@@ -1,6 +1,7 @@
 <?php
-include "../lib/Notices.php";
+include "../lib/Users.php";
 include "../lib/Session_Users.php";
+
 
 $seguridad = new Session_Users();
 
@@ -8,13 +9,31 @@ $nameuser_session = $seguridad->getUsuario();
 $roluser_session = $seguridad->getRol();
 $iduser_session = $seguridad->getID();
 
-if (!isset($nameuser_session) || $roluser_session == 0) {
-    header("location:../home.php");
+if (!isset($nameuser_session)) {
+    header("location:../../index.php");
     exit();
 }
 
-$notices = new Notices();
-$resultado = $notices->listNotices(true);
+if ($_POST["accion"] == "actualizar") {
+
+    if ($_POST["pass0"] == $_POST["pass1"]) { 
+        $user = new Users();
+
+        $usuarioPass = $user->updatePassword($iduser_session,$_POST["pass0"]);
+
+        echo '<script type="text/javascript">;';
+                echo ' alert("Contraseña cambiada correctamente.");';
+                echo 'window.location= "../profile.php";';  
+        echo '</script>;';
+
+    } else {
+        echo '<script type="text/javascript">;';
+                echo ' alert("Contraseñas no coinciden");';
+                echo 'window.location= "update_password.php";';  
+        echo '</script>;';
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +57,7 @@ $resultado = $notices->listNotices(true);
     <!-- Scripts -->
     <script type="text/javascript" defer src="../js/main.js"></script>
     <script type="text/javascript" defer src="../js/notices.js"></script>
-    <title>ChumPlay - Noticias</title>
+    <title>ChumPlay - Actualizar Usuario</title>
 </head>
 
 <body>
@@ -52,62 +71,40 @@ $resultado = $notices->listNotices(true);
         <a href="../play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="../rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a href="../rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
-        <a href="../profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+        <a class="active" href="../profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
         <a href="../logout.php"><i class="fa fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
         <?php if ($roluser_session == 1) { ?>
             <hr>
             <label class="admin">Administración</label>
-            <a href="cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-            <a href="players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-            <a class="active" href="notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+            <a href="../admin/cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+            <a href="..admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+            <a href="..admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
         <?php }
-        ?>         
+        ?>
     </div>
 
     <div class="content">
-        <h1>Noticias</h1>
-        <a class="a_players" href="notices/new_notice.php">Nueva Noticia</a>
-        
-        <p></p>
-        <div class="tbl_users_div">
-            <table class="tbl_users">
-                <thead>
-                    <tr>
-                        <th><b>ID</b></th>
-                        <th><b>Titulo</b></th>
-                        <th><b>Fecha</b></th>
-                        <th></th>
-                    </tr>
-                <tbody>
-                    <?php
+        <h1>Perfil - Actualizar Contraseña</h1>
 
-                    while ($row = $resultado->fetch_assoc()) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?>
-                            <td><?php echo $row['title']; ?>
-                            </td>
-                            <td><?php echo $row['created']; ?>
-                            </td>
-                            <td>
-                            <a href="notices/modify_notice.php?id=<?php echo $row['id']; ?>" title="Modificar"><i class="fa fa-solid fa-pen-to-square"></i></a>
-                            <a href="notices/delete_notice.php?id=<?php echo $row['id']; ?>" title="Elminar"><i class="fa fa-solid fa-trash"></i></i></a>
-                            </td>
-                            <!--
-                            <td>
-                                <a class="a_players" href="modify_user.php?id=<?php echo $row['id']; ?>">Modificar</a>
-                            </td>
-                            <td>
-                                <a class="a_players" href="eliminar.php?id=<?php echo $row['id']; ?>">Eliminar</a>
-                            </td>
-                    -->
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <form method="post" action="update_password.php">
+
+            <div>
+                <input name="pass0" id="pass0" type="password" class="form-control" placeholder="Contraseña" required>
+                <span class="help-block"></span>
+            </div>
+            <div>
+                <input name="pass1" id="pass1" type="password" class="form-control" placeholder="Confirmar Contraseña" required>
+                <span class="help-block"></span>
+            </div>
+            <div>
+                <input type="hidden" name="accion" value="actualizar">
+                <input class="a_players" type="submit" value="Actualizar">
+                <a class="a_players" href=../profile.php>Volver </a> 
+            </div> 
+        </form> 
+    </div> 
     <div class="footer">
-        Javier Durán - Desarrollo de Aplicaciones Web - Cesur
+                    Javier Durán - Desarrollo de Aplicaciones Web - Cesur
     </div>
 </body>
 

@@ -1,6 +1,18 @@
 <?php
-    include "../../lib/Notices.php";
-    include "../../lib/Session_Users.php";
+include "../../lib/Notices.php";
+include "../../lib/Session_Users.php";
+
+$seguridad = new Session_Users();
+
+$nameuser_session = $seguridad->getUsuario();
+$roluser_session = $seguridad->getRol();
+$iduser_session = $seguridad->getID();
+
+if (!isset($nameuser_session) || $roluser_session == 0) {
+    header("location:../../index.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,17 +44,22 @@
     <div class="sidebar">
 
         <img src="../../img/logo.png" alt="ChumPlay" title="ChumPlay">
+        <label class="namelogin">Hola <?php echo $nameuser_session; ?></label>
 
-        <a href="../../index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
+        <a href="../../home.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
         <a href="../../play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="../../rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a href="../../rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
         <a href="../../profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
-        <hr>
-        <label class="admin">Administración</label>
-        <a href="../create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-        <a href="../players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-        <a class="active" href="../notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <a href="../../logout.php"><i class="fa fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
+        <?php if ($roluser_session == 1) { ?>
+            <hr>
+            <label class="admin">Administración</label>
+            <a href="../cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+            <a href="../players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+            <a class="active" href="../notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <?php }
+        ?>
     </div>
 
     <div class="content">
@@ -51,7 +68,7 @@
         if (isset($_POST["accion"])) {
             //Generamos el nuevo objeto
             $notice = new Notices();
-            $seguridad = new Session_Users();
+            //$seguridad = new Session_Users();
             
             if ($_POST["accion"] == "update") {
    
@@ -81,12 +98,7 @@
                     echo "<h2>Error al borrar</h2>";
                 }    
             }
-            //LogOut
-            elseif ($_POST["accion"] == "logout") {
-                $seguridad->logOut();
-                echo "<h2>LogOut</h2></br>";
-                echo "<a href=login.php>Volver al formulario de login</a>";
-            }
+            
         }
         ?>
     </div>

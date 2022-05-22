@@ -1,7 +1,21 @@
 <?php
 include "../lib/Users.php";
+include "../lib/Session_Users.php";
+
+$seguridad = new Session_Users();
+
+$nameuser_session = $seguridad->getUsuario();
+$roluser_session = $seguridad->getRol();
+$iduser_session = $seguridad->getID();
+
+if (!isset($nameuser_session) || $roluser_session == 0) {
+    header("location:../home.php");
+    exit();
+}
+
 $users = new Users();
 $resultado = $users->listUsers();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,17 +47,22 @@ $resultado = $users->listUsers();
     <div class="sidebar">
 
         <img src="../img/logo.png" alt="ChumPlay" title="ChumPlay">
+        <label class="namelogin">Hola <?php echo $nameuser_session; ?></label>
 
-        <a href="../index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
+        <a href="../home.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
         <a href="../play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
         <a href="../rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
         <a href="../rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
         <a href="../profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
-        <hr>
+        <a href="../logout.php"><i class="fa fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
+        <?php if ($roluser_session == 1) { ?>
+            <hr>
         <label class="admin">Administración</label>
-        <a href="create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        <a href="cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
         <a class="active" href="players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-        <a href="notices.php"><i class="fa fa-solid fa-users fa-sm"></i>Noticias</a>
+        <a href="notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <?php }
+        ?>   
     </div>
 
     <div class="content">

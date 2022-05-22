@@ -1,10 +1,22 @@
 <?php
 include "lib/Session_Users.php";
-$seguridad=new Seguridad();
-if($seguridad->getUsuario()==null){
-  header('Location: index.php');
-  exit;
+include "lib/Users.php";
+
+$seguridad = new Session_Users();
+
+$nameuser_session = $seguridad->getUsuario();
+$roluser_session = $seguridad->getRol();
+$iduser_session = $seguridad->getID();
+
+if (!isset($nameuser_session)) {
+    header("location:index.php");
+    exit();
 }
+
+$users = new Users();
+$resultado = $users->listUserRating();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +28,7 @@ if($seguridad->getUsuario()==null){
     <!-- CSS -->
     <link rel="icon" type="image/x-icon" href="img/favicon-32x32.png">
     <link rel="stylesheet" type="text/css" href="css/menu.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">  
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/fontawesome.min.js" integrity="sha512-5qbIAL4qJ/FSsWfIq5Pd0qbqoZpk5NcUVeAAREV2Li4EKzyJDEGlADHhHOSSCw0tHP7z3Q4hNHJXa81P92borQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -33,46 +45,52 @@ if($seguridad->getUsuario()==null){
 
 <body>
     <div class="sidebar">
-    <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
+        <img src="img/logo.png" alt="ChumPlay" title="ChumPlay">
+        <label class="namelogin">Hola <?php echo $nameuser_session; ?></label>
 
-<a href="index.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
-<a class="active" href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
-<a class="active" href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
-<a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
-<a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
-<hr>
-<label class="admin">Administración</label>
-<a href="admin/create_cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-<a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-<a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <a href="home.php"> <i class="fa fa-home fa-sm"></i>Noticias</a>
+        <a href="play.php"><i class="fa fa-solid fa-futbol fa-sm"></i>Jugar</a>
+        <a class="active" href="rating.php"><i class="fa fa-solid fa-table-list fa-sm"></i>Clasificación</a>
+        <a href="rules.php"><i class="fa fa-solid fa-question fa-sm"></i>Reglas</a>
+        <a href="profile.php"><i class="fa fa-solid fa-user fa-sm"></i>Perfil</a>
+        <a href="logout.php"><i class="fa fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
+        <?php if ($roluser_session == 1) { ?>
+            <hr>
+            <label class="admin">Administración</label>
+            <a href="admin/cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+            <a href="admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+            <a href="admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <?php }
+        ?>
 
     </div>
 
     <div class="content">
-        <h2>Clasificación</h2>
-        <table>
-            <tr>
-                <th>Posición</th>
-                <th>Nombre</th>
-                <th>Puntos</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Manolo Perez</td>
-                <td>200</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Juan Gómez</td>
-                <td>180</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Jesus Paez</td>
-                <td>135</td>
-            </tr>
-        </table>
+        <h1>Clasificación</h1>
+        <div class="tbl_users_div">
+            <table class="tbl_users">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Nombre</th>
+                        <th>Puntos</th>
+                    </tr>
+                <tbody>
+                    <?php
 
+                    $rank = 1;
+                    while ($row = $resultado->fetch_assoc()) { ?>
+                        <tr>
+                            <td style="text-align: center;"><?php echo $rank ?> </td>
+                            <td style="text-align: center;"><?php echo $row['nombre'] . " " . $row['apellidos']; ?></td>
+                            <td style="text-align: center;"><?php echo $row['points']; ?></td>
+                        <tr>
+                        <?php 
+                            $rank++;
+                        } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="footer">
         Javier Durán - Desarrollo de Aplicaciones Web - Cesur

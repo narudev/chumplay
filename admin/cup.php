@@ -1,5 +1,5 @@
 <?php
-include "../lib/Notices.php";
+include "../lib/Cup.php";
 include "../lib/Session_Users.php";
 
 $seguridad = new Session_Users();
@@ -13,8 +13,10 @@ if (!isset($nameuser_session) || $roluser_session == 0) {
     exit();
 }
 
-$notices = new Notices();
-$resultado = $notices->listNotices(true);
+$cup = new Cup();
+$resultado = $cup->listCup();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +40,7 @@ $resultado = $notices->listNotices(true);
     <!-- Scripts -->
     <script type="text/javascript" defer src="../js/main.js"></script>
     <script type="text/javascript" defer src="../js/notices.js"></script>
-    <title>ChumPlay - Noticias</title>
+    <title>ChumPlay - Torneo</title>
 </head>
 
 <body>
@@ -56,50 +58,40 @@ $resultado = $notices->listNotices(true);
         <a href="../logout.php"><i class="fa fa-solid fa-arrow-right-from-bracket"></i>Salir</a>
         <?php if ($roluser_session == 1) { ?>
             <hr>
-            <label class="admin">Administración</label>
-            <a href="cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-            <a href="players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-            <a class="active" href="notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+        <label class="admin">Administración</label>
+        <a class="active" href="cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+        <a href="players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+        <a href="notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
         <?php }
-        ?>         
+        ?>   
     </div>
 
     <div class="content">
-        <h1>Noticias</h1>
-        <a class="a_players" href="notices/new_notice.php">Nueva Noticia</a>
-        
+        <h1>Torneo</h1>
+        <!-- EN PROXIMA VERSION SE PODRAN AÑADIR MAS TORNEOS -->
+        <!--<a class="a_players" href="cup/new_cup.php">Nuevo Torneo</a>-->
         <p></p>
         <div class="tbl_users_div">
             <table class="tbl_users">
                 <thead>
                     <tr>
                         <th><b>ID</b></th>
-                        <th><b>Titulo</b></th>
-                        <th><b>Fecha</b></th>
+                        <th><b>Torneo</b></th>                        
                         <th></th>
                     </tr>
                 <tbody>
                     <?php
 
                     while ($row = $resultado->fetch_assoc()) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?>
-                            <td><?php echo $row['title']; ?>
+                        <tr style="text-align:center">
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $row['name_cup']; ?></td>
+                            
+                            <td >
+                            <a href="cup/modify_cup.php?id=<?php echo $row['id']; ?>" title="Modificar"><i class="fa fa-solid fa-pen-to-square"></i></a>
+                            <!--<a href="cup/delete_cup.php?id=<?php echo $row['id']; ?>" title="Elminar"><i class="fa fa-solid fa-trash"></i></i></a>-->
                             </td>
-                            <td><?php echo $row['created']; ?>
-                            </td>
-                            <td>
-                            <a href="notices/modify_notice.php?id=<?php echo $row['id']; ?>" title="Modificar"><i class="fa fa-solid fa-pen-to-square"></i></a>
-                            <a href="notices/delete_notice.php?id=<?php echo $row['id']; ?>" title="Elminar"><i class="fa fa-solid fa-trash"></i></i></a>
-                            </td>
-                            <!--
-                            <td>
-                                <a class="a_players" href="modify_user.php?id=<?php echo $row['id']; ?>">Modificar</a>
-                            </td>
-                            <td>
-                                <a class="a_players" href="eliminar.php?id=<?php echo $row['id']; ?>">Eliminar</a>
-                            </td>
-                    -->
+
                         </tr>
                     <?php } ?>
                 </tbody>

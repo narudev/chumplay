@@ -1,6 +1,6 @@
 <?php
-include "../../lib/Users.php";
 include "../../lib/Session_Users.php";
+include "../../lib/Cup.php";
 
 $seguridad = new Session_Users();
 
@@ -9,14 +9,16 @@ $roluser_session = $seguridad->getRol();
 $iduser_session = $seguridad->getID();
 
 if (!isset($nameuser_session) || $roluser_session == 0) {
-    header("location:../../index.php");
+    header("location:index.php");
     exit();
 }
 
-$users = new Users();
-$resultado = $users->listUsers();
+$name_cup = $_POST['name_cup'];
+
+
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,13 +41,11 @@ $resultado = $users->listUsers();
     <!-- Scripts -->
     <script type="text/javascript" defer src="../../js/main.js"></script>
     <script type="text/javascript" defer src="../../js/notices.js"></script>
-    <title>ChumPlay - Registrar Usuario</title>
+    <title>ChumPlay - Torneo</title>
 </head>
 
 <body>
-
     <div class="sidebar">
-
         <img src="../../img/logo.png" alt="ChumPlay" title="ChumPlay">
         <label class="namelogin">Hola <?php echo $nameuser_session; ?></label>
 
@@ -58,44 +58,29 @@ $resultado = $users->listUsers();
         <?php if ($roluser_session == 1) { ?>
             <hr>
             <label class="admin">Administración</label>
-            <a href="../cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-            <a class="active" href="../players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-            <a href="../notices.php"><i class="fa fa-solid fa-users fa-sm"></i>Noticias</a>
+            <a class="active" href="../cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+            <a href="../players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+            <a href="../notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
         <?php }
-        ?>
+        ?>      
+
     </div>
 
     <div class="content">
-        <h1>Crear Nuevo Usuario</h1>
-        <form method="post" action="create_user.php">
-            <div>
-                <input name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre" required>
-                <span class="help-block"></span>
-            </div>
-            <div>
-                <input name="apellidos" id="apellidos" type="text" class="form-control" placeholder="Apellidos" required>
-                <span class="help-block"></span>
-            </div>
-            <div>
-                <input name="email" id="email" type="email" class="form-control" placeholder="Correo electrónico" required>
-                <span class="help-block"></span>
-            </div>
-            <div>
-                <input name="pass0" id="pass0" type="password" class="form-control" placeholder="Contraseña" required>
-                <span class="help-block"></span>
-            </div>
-            <div>
-                <input name="pass1" id="pass1" type="password" class="form-control" placeholder="Confirmar Contraseña" required>
-                <span class="help-block"></span>
-            </div>
-            <div>
-                <input type="hidden" name="accion" value="registro">
-                <input class="a_players" type="submit" value="Registrar">
-            </div>
+        <h1>Crear Torneo</h1>
+            <?php
+                $cup = new Cup();
 
-        </form>
+                $resultado = $cup->insertCup($name_cup);
 
+                if($resultado != null){
+                    echo "<h2>Torneo introducido correctamente.</h2>";
+                    echo "<a  class='a_players' href=../cup.php>Volver</a>";
+                }
+
+            ?>
     </div>
+
     <div class="footer">
         Javier Durán - Desarrollo de Aplicaciones Web - Cesur
     </div>

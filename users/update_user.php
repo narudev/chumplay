@@ -1,6 +1,7 @@
 <?php
-include "../lib/Notices.php";
+include "../lib/Users.php";
 include "../lib/Session_Users.php";
+
 
 $seguridad = new Session_Users();
 
@@ -8,13 +9,11 @@ $nameuser_session = $seguridad->getUsuario();
 $roluser_session = $seguridad->getRol();
 $iduser_session = $seguridad->getID();
 
-if (!isset($nameuser_session) || $roluser_session == 0) {
-    header("location:../home.php");
+if (!isset($nameuser_session)) {
+    header("location:../../index.php");
     exit();
 }
 
-$notices = new Notices();
-$resultado = $notices->listNotices(true);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +37,7 @@ $resultado = $notices->listNotices(true);
     <!-- Scripts -->
     <script type="text/javascript" defer src="../js/main.js"></script>
     <script type="text/javascript" defer src="../js/notices.js"></script>
-    <title>ChumPlay - Noticias</title>
+    <title>ChumPlay - Actualizar Usuario</title>
 </head>
 
 <body>
@@ -57,54 +56,38 @@ $resultado = $notices->listNotices(true);
         <?php if ($roluser_session == 1) { ?>
             <hr>
             <label class="admin">Administración</label>
-            <a href="cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
-            <a href="players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
-            <a class="active" href="notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
+            <a href="../admin/cup.php"><i class="fa fa-solid fa-trophy fa-sm"></i>Torneo</a>
+            <a class="active" href="..admin/players.php"><i class="fa fa-solid fa-users fa-sm"></i>Usuarios</a>
+            <a href="..admin/notices.php"><i class="fa fa-solid fa-file-lines"></i>Noticias</a>
         <?php }
-        ?>         
+        ?>
     </div>
 
     <div class="content">
-        <h1>Noticias</h1>
-        <a class="a_players" href="notices/new_notice.php">Nueva Noticia</a>
-        
-        <p></p>
-        <div class="tbl_users_div">
-            <table class="tbl_users">
-                <thead>
-                    <tr>
-                        <th><b>ID</b></th>
-                        <th><b>Titulo</b></th>
-                        <th><b>Fecha</b></th>
-                        <th></th>
-                    </tr>
-                <tbody>
+        <?php
+        //Control de las acciones a realizar
+        if (isset($_POST["accion"])) {
+            //Generamos el nuevo objeto
+            $user = new Users();
+            //$seguridad = new Session_Users();
+            
+            if ($_POST["accion"] == "update") {
+   
+                $usuarioUpdate = $user->updateUsuario($_POST['id'],$_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"]);
+                   
+                if ($usuarioUpdate == true){
+                    ?>
+                        <h1>Actualización de Usuario</h1>
+                        <h2>Usuario actualizado correctamente</h2>
+                        <a class="a_players" href=../home.php>Volver</a>
+                           
                     <?php
-
-                    while ($row = $resultado->fetch_assoc()) { ?>
-                        <tr>
-                            <td><?php echo $row['id']; ?>
-                            <td><?php echo $row['title']; ?>
-                            </td>
-                            <td><?php echo $row['created']; ?>
-                            </td>
-                            <td>
-                            <a href="notices/modify_notice.php?id=<?php echo $row['id']; ?>" title="Modificar"><i class="fa fa-solid fa-pen-to-square"></i></a>
-                            <a href="notices/delete_notice.php?id=<?php echo $row['id']; ?>" title="Elminar"><i class="fa fa-solid fa-trash"></i></i></a>
-                            </td>
-                            <!--
-                            <td>
-                                <a class="a_players" href="modify_user.php?id=<?php echo $row['id']; ?>">Modificar</a>
-                            </td>
-                            <td>
-                                <a class="a_players" href="eliminar.php?id=<?php echo $row['id']; ?>">Eliminar</a>
-                            </td>
-                    -->
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                }else{
+                    echo "<h2>Error al actualizar</h2>";
+                }    
+            }
+        }
+        ?>
     </div>
     <div class="footer">
         Javier Durán - Desarrollo de Aplicaciones Web - Cesur
